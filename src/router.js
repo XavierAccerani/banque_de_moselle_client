@@ -17,7 +17,7 @@ export const router = new Router({
     {
       path: '/fournisseurs',
       name: 'fournisseurs',
-      component: Fournisseurs
-    }
+      component: Fournisseurs,
+    },
   ]
 });

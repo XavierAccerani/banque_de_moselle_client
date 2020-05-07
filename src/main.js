@@ -3,6 +3,10 @@ import App from './App.vue';
 import {router} from './router';
 import http from 'vue-resource';
 
+import 'jquery/dist/jquery.min';
+import 'bootstrap/dist/js/bootstrap.min';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 Vue.config.productionTip = false;
 Vue.use(http);
 
