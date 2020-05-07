@@ -31,7 +31,6 @@
     props: ['fournisseur', 'creer'],
     data() {
       return {
-        fournisseur: {},
       }
     },
     watch: {
