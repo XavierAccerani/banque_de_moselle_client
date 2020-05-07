@@ -1,22 +1,26 @@
 <template>
-  <div class="detail-fournisseur">
-    <h2>Détail fournisseur</h2>
+  <div class="detail-agence">
+    <h2>Détail agence</h2>
 
     <form @submit.prevent="validerForm">
       <div class="form-elem" v-if="!creer">
         <label for="id">ID</label>
-        <input id="id" name="id" type="text" class="form-control" v-model="fournisseur.id" readonly>
+        <input id="id" name="id" type="text" class="form-control" v-model="agence.id" readonly>
       </div>
       <div class="form-group">
-        <label for="nom">Nom</label>
-        <input id="nom" name="nom" type="text" class="form-control" v-model="fournisseur.nom">
+        <label for="codePostal">Code Postal</label>
+        <input id="codePostal" name="codePostal" type="text" class="form-control" v-model="agence.codePostal">
       </div>
       <div class="form-group">
-        <label for="siret">Siret</label>
-        <input id="siret" name="siret" type="text" class="form-control" v-model="fournisseur.siret">
+        <label for="ville">Ville</label>
+        <input id="ville" name="ville" type="text" class="form-control" v-model="agence.ville">
+      </div>
+      <div class="form-group">
+        <label for="adresse">Adresse</label>
+        <input id="adresse" name="adresse" type="text" class="form-control" v-model="agence.adresse">
       </div>
       <div class="form-group" v-if="!creer">
-        <label class="form-check-label">{{fournisseur.actif ? 'Actif' : 'Inactif'}}</label>
+        <label class="form-check-label">{{agence.actif ? 'Actif' : 'Inactif'}}</label>
       </div>
 
       <button type="submit" class="btn btn-success">Enregistrer</button>
@@ -27,14 +31,14 @@
 <script>
   /* eslint-disable */
   export default {
-    name: "DetailFournisseur",
-    props: ['fournisseur', 'creer'],
+    name: "DetailAgence",
+    props: ['agence', 'creer'],
     data() {
       return {
       }
     },
     watch: {
-      $route: 'getFournisseur'
+      $route: 'getAgence'
     },
     methods: {
       validerForm() {
@@ -43,12 +47,12 @@
       async enregistrer() {
         try {
           const httpMethod = this.creer ? 'post' : 'put';
-          const url = this.creer ? 'fournisseurs' : `fournisseurs/${this.fournisseur.id}`;
-          const reponse = await this.$http[httpMethod](url, this.fournisseur);
+          const url = this.creer ? 'agences' : `agences/${this.agence.id}`;
+          const reponse = await this.$http[httpMethod](url, this.agence);
 
           if (reponse.status === 200) {
             // la fonction emit, permet d'utiliser une fonction du composant parent (ici Fournisseurs.vue)
-            this.$emit('rechargerFournisseurs');
+            this.$emit('rechargerAgences');
           }
         } catch (e) {
           console.error(e);
@@ -59,7 +63,7 @@
 </script>
 
 <style scoped>
-  .detail-fournisseur {
+  .detail-agence {
     padding: 5px;
     border-radius: 3px;
     background-color: aliceblue;

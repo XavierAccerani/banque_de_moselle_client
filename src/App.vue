@@ -1,9 +1,16 @@
 <template>
   <div id="app" class="container">
     <nav>
-      <ul>
-        <li><router-link to="/">Accueil</router-link></li>
-        <li><router-link to="/fournisseurs">Fournisseurs</router-link></li>
+      <ul class="nav justify-content-center">
+        <li class="nav-item">
+          <router-link to="/" class="nav-link">Accueil</router-link>
+        </li>
+        <li class="nav-item">
+          <router-link to="/fournisseurs" class="nav-link">Fournisseurs</router-link>
+        </li>
+        <li class="nav-item">
+          <router-link to="/agences" class="nav-link">Agences</router-link>
+        </li>
       </ul>
     </nav>
 
