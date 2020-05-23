@@ -8,6 +8,9 @@
         <li class="nav-item">
           <router-link to="/fournisseurs" class="nav-link">Fournisseurs</router-link>
         </li>
+        <li class="nav-item">
+          <router-link to="/agences" class="nav-link">Agences</router-link>
+        </li>
       </ul>
     </nav>
 
