@@ -1,12 +1,27 @@
 <template>
   <div id="app" class="container">
     <nav>
-      <ul class="nav justify-content-center">
+      <ul class="nav justify-content-center" v-if="userActuel">
         <li class="nav-item">
           <router-link to="/" class="nav-link">Accueil</router-link>
         </li>
         <li class="nav-item">
           <router-link to="/fournisseurs" class="nav-link">Fournisseurs</router-link>
+        </li>
+        <li class="nav-item" v-if="isAdmin">
+          <a class="nav-link" href>Utilisateurs</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href @click="logout">Déconnection</a>
+        </li>
+        <li class="nav-item navbar-text">
+          {{userActuel.username}}
+        </li>
+      </ul>
+
+      <ul class="nav justify-content-center">
+        <li class="nav-item" v-if="!userActuel">
+          <router-link class="nav-link" to="login">Login</router-link>
         </li>
       </ul>
     </nav>
@@ -16,9 +31,39 @@
 </template>
 
 <script>
+  /* eslint-disable no-console */
+  import {router} from './router';
+  import {userService} from "./services/user.service";
+
   export default {
     name: 'App',
-    components: {}
+    data() {
+      return {
+        userActuel: ''
+      }
+    },
+    created() {
+      this.userActuel = userService.userActuel();
+    },
+    computed: {
+      isAdmin: function () {
+        return this.userActuel && this.possedeLeRoleAdmin(this.userActuel);
+      }
+    },
+    methods: {
+      logout() {
+        userService.logout();
+        router.navigate(['/login']);
+      },
+      possedeLeRoleAdmin(user) {
+        for (const element of user.authorities) {
+          if (element['authority'] === 'ROLE_ADMINS') {
+            return true;
+          }
+        }
+        return false;
+      }
+    }
   }
 </script>
 
