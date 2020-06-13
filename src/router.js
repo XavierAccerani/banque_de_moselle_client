@@ -4,6 +4,7 @@ import Home from "./views/Home";
 import Login from "./views/Login";
 import NotFound from "./views/NotFound";
 import Fournisseurs from "./views/Fournisseurs";
+import Commandes from "./views/Commandes";
 
 Vue.use(Router);
 
@@ -20,6 +21,11 @@ export const router = new Router({
       path: '/fournisseurs',
       name: 'fournisseurs',
       component: Fournisseurs,
+    },
+    {
+      path: '/commandes',
+      name: 'commandes',
+      component: Commandes,
     },
     {
       path: '/login',

@@ -8,6 +8,9 @@
         <li class="nav-item">
           <router-link to="/fournisseurs" class="nav-link">Fournisseurs</router-link>
         </li>
+        <li class="nav-item">
+          <router-link to="commandes" class="nav-link">Commandes</router-link>
+        </li>
         <li class="nav-item" v-if="isAdmin">
           <a class="nav-link" href>Utilisateurs</a>
         </li>

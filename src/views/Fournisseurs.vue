@@ -8,11 +8,12 @@
 
     <div class="col-6">
       <ul class="liste">
-        <li v-for="fournisseur in fournisseurs" :key="fournisseur.id"
+        <li v-for="fournisseur in fournisseursPagination" :key="fournisseur.id"
             class="item" @click.prevent="chargerUnFournisseur(fournisseur.id)">
           {{fournisseur.nom}}
         </li>
       </ul>
+      <Pagination :elements="fournisseurs" :nbPages="nbPages" :changerTableau="setFournisseursPagination"/>
     </div>
 
     <div class="col-6">
@@ -23,22 +24,27 @@
 
 <script>
   import DetailFournisseur from "../components/DetailFournisseur";
+  import Pagination from "../components/Pagination";
 
   export default {
     name: "Fournisseurs",
-    components: {DetailFournisseur},
-    comments: {
-      DetailFournisseur
+    components: {
+      DetailFournisseur,
+      Pagination
     },
     data() {
       return {
         creer: true,
         fournisseurs: [],
-        fournisseurForm: {}
+        fournisseurForm: {},
+        fournisseursPagination: [],
+        nbPages: 0
       }
     },
     async mounted() {
       await this.getFournisseurs();
+      this.fournisseursPagination = this.fournisseurs.slice(0, Pagination.PAR_PAGE);
+      this.calculerNombrePage();
     },
     methods: {
       async getFournisseurs() {
@@ -51,6 +57,7 @@
       },
       async rechargerFournisseurs() {
         await this.getFournisseurs();
+        this.calculerNombrePage();
       },
       async chargerUnFournisseur(id) {
         try {
@@ -64,6 +71,13 @@
       effacerFormulaire() {
         this.creer = true;
         this.fournisseurForm = {};
+      },
+      setFournisseursPagination: function (nouveauTableau) {
+        this.fournisseursPagination = nouveauTableau;
+      },
+      calculerNombrePage() {
+        const nbFourniseurs = this.fournisseurs.length;
+        this.nbPages = Math.floor(nbFourniseurs / Pagination.PAR_PAGE) + (nbFourniseurs % Pagination.PAR_PAGE === 0 ? 0 : 1);
       }
     }
   }
