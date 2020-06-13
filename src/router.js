@@ -5,6 +5,7 @@ import Login from "./views/Login";
 import NotFound from "./views/NotFound";
 import Fournisseurs from "./views/Fournisseurs";
 import Commandes from "./views/Commandes";
+import Input from "./views/Input";
 
 Vue.use(Router);
 
@@ -31,6 +32,11 @@ export const router = new Router({
       path: '/login',
       name: 'login',
       component: Login
+    },
+    {
+      path: '/articles/importer',
+      name: 'articles/importer',
+      component: Input
     },
     {
       path: '*',

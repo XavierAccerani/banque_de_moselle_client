@@ -1,21 +1,27 @@
 <template>
   <div id="app" class="container">
-    <nav>
-      <ul class="nav justify-content-center" v-if="userActuel">
-        <li class="nav-item">
-          <router-link to="/" class="nav-link">Accueil</router-link>
+    <nav id="menu">
+      <ul class="navbar-collapse justify-content-center" v-if="userActuel">
+        <li class="nav-item" >
+          <router-link to="/" >Accueil</router-link>
         </li>
         <li class="nav-item">
-          <router-link to="/fournisseurs" class="nav-link">Fournisseurs</router-link>
+          <a  href class="nav-fill">Faire une commande</a>
         </li>
         <li class="nav-item">
-          <router-link to="commandes" class="nav-link">Commandes</router-link>
+          <router-link to="commandes" >Commandes</router-link>
         </li>
         <li class="nav-item" v-if="isAdmin">
-          <a class="nav-link" href>Utilisateurs</a>
+          <a  href>Utilisateurs</a>
+        </li>
+        <li class="nav-item" v-if="isAdmin">
+          <router-link to="/articles/importer" >Importer articles</router-link>
+        </li>
+        <li class="nav-item" v-if="isAdmin">
+          <router-link to="/fournisseurs" >Fournisseurs</router-link>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href @click="logout">Déconnection</a>
+          <a  href @click="logout" >Déconnection</a>
         </li>
         <li class="nav-item navbar-text">
           {{userActuel.username}}
@@ -77,10 +83,22 @@
     -moz-osx-font-smoothing: grayscale;
     color: #2c3e50;
   }
-
-  li {
-    margin: 3px;
+  #menu{
+    margin: 5px;
+  }
+ #menu ul{
+   background: #0090ff;
+   border-radius: 50px;
+ }
+  #menu li {
+    margin-left: 2%;
+    margin-right: 1%;
     display: inline-block;
     text-decoration: none;
+    color: black;
+  }
+  #menu router-lin, #menu a{
+    color: white;
+    text-shadow: 2px 1px 1px rgba(0, 0, 0, 0.85);
   }
 </style>

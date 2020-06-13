@@ -3,21 +3,19 @@
     <h1 class="col-12">Liste des commandes</h1>
 
     <div class="col-12">
-      <button class="btn btn-link" @click="effacerFormulaire">Ajouter un fournisseur</button>
-    </div>
-
-    <div class="col-12">
       <table class="table" v-if="commandes.length">
         <tr>
           <th>Numéro</th>
           <th>Date création</th>
+          <th>Etat</th>
           <th>Fournisseur</th>
           <th>Montant TTC</th>
         </tr>
 
-        <tr v-for="commande in commandes" :key="commande.id">
-          <td><a href @click.prevent="chargerUneCommande(commande.id)">{{commande.numero}}</a></td>
+        <tr @click.prevent="chargerUneCommande(commande.id)" v-for="commande in commandes" :key="commande.id">
+          <td><a href>{{commande.numero}}</a></td>
           <td></td>
+          <td>{{getEtatCommande(commande)}}</td>
           <td>{{commande.fournisseur.nom}}</td>
           <td>{{getMontantTTC(commande)}}</td>
         </tr>
@@ -26,6 +24,7 @@
 
     <div class="col-12">
       <DetailCommande :creer="creer" :commande="commandeForm" @rechargerCommandes="rechargerCommandes"/>
+      <br>
     </div>
   </div>
 </template>
@@ -61,7 +60,7 @@
         let montant = 0;
         commande.lignesCommandes.forEach(ligne => {
           montant += ligne.prix * ligne.quantite * ligne.tva;
-        })
+        });
         return montant;
       },
       async chargerUneCommande(id) {
@@ -80,6 +79,10 @@
         this.creer = true;
         this.commandeForm = {};
       },
+      getEtatCommande(commande){
+        if (commande.etat === 10) {return "Créée";}
+        else if(commande.etat ===20){ return "Rédigée"}
+      }
     }
   }
 </script>

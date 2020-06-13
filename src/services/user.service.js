@@ -29,7 +29,6 @@ async function login(username, password) {
         // pour garder le user loggé entre les différentes pages
         localStorage.setItem('user', JSON.stringify(user));
       }
-
       return user;
     });
 }

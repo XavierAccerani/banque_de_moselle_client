@@ -22,14 +22,14 @@
       </div>
 
       <div>
-        <label class="col-form-label">Lignes Commande</label>
+        <label class="col-form-label">Articles</label>
 
         <table class="table">
           <tr>
-            <th class="col-4">Référence</th>
-            <th class="col-2">Prix</th>
+            <th class="col-1">Référence</th>
+            <th class="col-1">Prix</th>
             <th class="col-1">Quantité</th>
-            <th class="col-2">TVA</th>
+            <th class="col-1">TVA</th>
             <th class="col-1">Total HT</th>
             <th class="col-1">Total TTC</th>
             <th class="col-1"></th>
@@ -45,9 +45,15 @@
             <td>
               <input type="number" :id="'quantite'+i" :name="'quantite'+i" v-model="ligne.quantite" min="0">
             </td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>
+              {{getTVA(ligne)}}%
+            </td>
+            <td>
+              {{getMontantHT(ligne)}}€
+            </td>
+            <td>
+              {{getMontantTTC(ligne)}}€
+            </td>
             <td></td>
           </tr>
         </table>
@@ -94,6 +100,21 @@
         } catch (e) {
           console.error(e);
         }
+      },
+      getTVA(ligne) {
+        let tva = 0;
+        tva = Math.round(( ligne.tva -1 )* 100);
+        return tva;
+      },
+      getMontantHT(ligne) {
+        let montant = 0;
+          montant = ligne.prix * ligne.quantite;
+        return montant.toFixed(2);
+      },
+      getMontantTTC(ligne) {
+        let montant = 0;
+          montant = ligne.prix * ligne.quantite * ligne.tva;
+        return montant.toFixed(2);
       }
     }
   }
