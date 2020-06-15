@@ -90,7 +90,7 @@
     width:100%;
     display: table;
     padding: 0;
-    background: #0090ff;
+    background: #237aff;
     border-radius: 10px;
     box-shadow: 0 1px 3px rgba(0, 144, 255, .3),
     0 3px 5px rgba(0, 144, 255, .2),
