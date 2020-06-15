@@ -15,7 +15,9 @@
     "vue": "^2.6.11",
     "vue-resource": "^1.5.1",
     "vue-router": "^3.3.2",
-    "vuejs-paginate": "^2.1.0"
+    "vuejs-paginate": "^2.1.0",
+    "vee-validate": "<3.0.0",
+    "vue-snotify": "^3.2.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.3.0",
