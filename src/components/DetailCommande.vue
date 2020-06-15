@@ -55,7 +55,7 @@
               {{getMontantTTC(ligne)}}€
             </td>
             <td>
-              <button class="btn btn-sm btn-danger" @click="supprimerLigne(i)">X</button>
+              <button type="button" class="btn btn-sm btn-danger" @click="supprimerLigne(i)">X</button>
             </td>
           </tr>
 
@@ -65,14 +65,19 @@
             <th>{{getTotalTTC()}} €</th>
           </tr>
         </table>
+
+        <button type="button" class="btn btn-sm btn-light" @click="ajouterUneLigne">+ Ajouter un article</button>
       </div>
 
+      <br>
       <button type="submit" class="btn btn-success">Enregistrer</button>
     </form>
   </div>
 </template>
 
 <script>
+  import {LigneCommande} from "../modeles/LigneCommande";
+
   export default {
     name: "DetailCommande",
     props: ['commande', 'creer'],
@@ -136,10 +141,16 @@
       },
       supprimerLigne(index) {
         this.commande.lignesCommandes.splice(index, 1);
+      },
+      ajouterUneLigne() {
+        this.commande.lignesCommandes.push(new LigneCommande());
       }
     }
   }
 </script>
 
 <style scoped>
+  .btn-danger {
+    border-radius: 5px;
+  }
 </style>

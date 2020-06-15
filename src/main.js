@@ -3,13 +3,18 @@ import App from './App.vue';
 import {router} from './router';
 import http from 'vue-resource';
 import Paginate from 'vuejs-paginate';
+import VeeValidate from 'vee-validate';
+import Snotify from 'vue-snotify';
 
 import 'jquery/dist/jquery.min';
 import 'bootstrap/dist/js/bootstrap.min';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'vue-snotify/styles/material.css';
 
 Vue.config.productionTip = false;
 Vue.use(http);
+Vue.use(Snotify);
+Vue.use(VeeValidate);
 Vue.component('paginate', Paginate);
 
 Vue.http.options.root = 'http://localhost:8080';
@@ -21,6 +26,14 @@ Vue.http.interceptors.push(request => {
       router.push({path: "/login"});
     }
   };
+});
+
+Vue.filter('capitalize', function (value) {
+  if (!value) {
+    return '';
+  }
+  value = value.toString();
+  return value.charAt(0).toUpperCase() + value.slice(1)
 });
 
 new Vue({

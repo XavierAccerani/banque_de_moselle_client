@@ -9,11 +9,15 @@
       </div>
       <div class="form-group">
         <label for="nom">Nom</label>
-        <input id="nom" name="nom" type="text" class="form-control" v-model="fournisseur.nom">
+        <input id="nom" name="nom" type="text" class="form-control" v-model="fournisseur.nom"
+               v-validate="'required|alpha_spaces'">
+        <span v-show="errors.has('nom')" class="text-danger">{{errors.first('nom')}}</span>
       </div>
       <div class="form-group">
         <label for="siret">Siret</label>
-        <input id="siret" name="siret" type="text" class="form-control" v-model="fournisseur.siret">
+        <input id="siret" name="siret" type="text" class="form-control"
+               v-model="fournisseur.siret" v-validate="'required|digits:4'">
+        <span v-show="errors.has('siret')" class="text-danger">{{errors.first('siret')}}</span>
       </div>
       <div class="form-group" v-if="!creer">
         <label class="form-check-label">{{fournisseur.actif ? 'Actif' : 'Inactif'}}</label>
@@ -38,7 +42,15 @@
     },
     methods: {
       validerForm() {
-        this.enregistrer();
+        this.$validator.validateAll().then(resultat => {
+          if (resultat) {
+            this.enregistrer();
+            this.$snotify.success('Fournisseur enregistré !');
+            return;
+          }
+
+          this.$snotify.error('Erreurs dans le formulaire !');
+        });
       },
       async enregistrer() {
         try {

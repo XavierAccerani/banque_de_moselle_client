@@ -10,7 +10,7 @@
       <ul class="liste">
         <li v-for="fournisseur in fournisseursPagination" :key="fournisseur.id"
             class="item" @click.prevent="chargerUnFournisseur(fournisseur.id)">
-          {{fournisseur.nom}}
+          {{fournisseur.nom|capitalize}}
         </li>
       </ul>
       <Pagination :elements="fournisseurs" :nbPages="nbPages" :changerTableau="setFournisseursPagination"/>

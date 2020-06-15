@@ -36,6 +36,7 @@
     </nav>
 
     <router-view/>
+    <vue-snotify/>
   </div>
 </template>
 
