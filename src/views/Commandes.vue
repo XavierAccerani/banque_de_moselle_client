@@ -81,7 +81,12 @@
       },
       getEtatCommande(commande){
         if (commande.etat === 10) {return "Créée";}
-        else if(commande.etat ===20){ return "Rédigée"}
+        else if(commande.etat === 20){ return "Rédigée"}
+        else if(commande.etat === 30){ return "Visée"}
+        else if(commande.etat === 40){ return "Signée"}
+        else if(commande.etat === 50){ return "Envoyée"}
+        else if(commande.etat === 60){ return "Réceptionnée"}
+        else if(commande.etat === 70){ return "Archivée"}
       }
     }
   }
