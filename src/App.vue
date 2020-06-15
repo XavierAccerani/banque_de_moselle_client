@@ -9,7 +9,7 @@
           <a  href class="nav-fill">Faire une commande</a>
         </li>
         <li class="nav-item">
-          <router-link to="commandes" >Commandes</router-link>
+          <router-link to="/commandes" >Commandes</router-link>
         </li>
         <li class="nav-item" v-if="isAdmin">
           <a  href>Utilisateurs</a>

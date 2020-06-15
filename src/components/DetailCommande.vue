@@ -54,7 +54,15 @@
             <td>
               {{getMontantTTC(ligne)}}€
             </td>
-            <td></td>
+            <td>
+              <button class="btn btn-sm btn-danger" @click="supprimerLigne(i)">X</button>
+            </td>
+          </tr>
+
+          <tr>
+            <td colspan="5"></td>
+            <th>Total TTC</th>
+            <th>{{getTotalTTC()}} €</th>
           </tr>
         </table>
       </div>
@@ -108,13 +116,26 @@
       },
       getMontantHT(ligne) {
         let montant = 0;
-          montant = ligne.prix * ligne.quantite;
+        montant = ligne.prix * ligne.quantite;
         return montant.toFixed(2);
       },
       getMontantTTC(ligne) {
         let montant = 0;
-          montant = ligne.prix * ligne.quantite * ligne.tva;
+        montant = this.calculerMontantLigneTTC(ligne);
         return montant.toFixed(2);
+      },
+      getTotalTTC() {
+        let total = 0;
+        this.commande.lignesCommandes.forEach(ligne => {
+          total += this.calculerMontantLigneTTC(ligne);
+        })
+        return total.toFixed(2);
+      },
+      calculerMontantLigneTTC(ligne) {
+        return ligne.prix * ligne.quantite * ligne.tva;
+      },
+      supprimerLigne(index) {
+        this.commande.lignesCommandes.splice(index, 1);
       }
     }
   }

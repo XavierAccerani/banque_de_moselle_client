@@ -31,6 +31,7 @@
 
 <script>
   import DetailCommande from "../components/DetailCommande";
+  import {Commande} from "../modeles/Commande";
 
   export default {
     name: "Commandes",
@@ -41,7 +42,7 @@
       return {
         creer: true,
         commandes: [],
-        commandeForm: {},
+        commandeForm: new Commande(),
       }
     },
     async mounted() {
@@ -77,7 +78,7 @@
       },
       effacerFormulaire() {
         this.creer = true;
-        this.commandeForm = {};
+        this.commandeForm = new Commande;
       },
       getEtatCommande(commande){
         if (commande.etat === 10) {return "Créée";}
