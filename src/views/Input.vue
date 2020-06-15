@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="col-10" style="margin: auto;">
-      <h2>Impoter des articles</h2>
+      <h2>Importer des articles</h2>
       <label>Fichier CSV
         <input type="file" id="file" ref="file" class="btn btn-outline-info" v-on:change="chargerFichier()"/>
       </label>
