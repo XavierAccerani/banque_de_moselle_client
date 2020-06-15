@@ -4,6 +4,7 @@ import {router} from './router';
 import http from 'vue-resource';
 import Paginate from 'vuejs-paginate';
 import VeeValidate from 'vee-validate';
+import id from './locale-id'
 import Snotify from 'vue-snotify';
 
 import 'jquery/dist/jquery.min';
@@ -14,7 +15,14 @@ import 'vue-snotify/styles/material.css';
 Vue.config.productionTip = false;
 Vue.use(http);
 Vue.use(Snotify);
+
 Vue.use(VeeValidate);
+const rulesPlugin = ({ Validator }) => {
+  Validator.localize('id', id);
+};
+
+VeeValidate.use(rulesPlugin);
+
 Vue.component('paginate', Paginate);
 
 Vue.http.options.root = 'http://localhost:8080';
