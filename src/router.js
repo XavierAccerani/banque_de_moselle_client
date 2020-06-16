@@ -6,6 +6,7 @@ import NotFound from "./views/NotFound";
 import Fournisseurs from "./views/Fournisseurs";
 import Commandes from "./views/Commandes";
 import Input from "./views/Input";
+import Users from "./views/Users"
 
 Vue.use(Router);
 
@@ -42,6 +43,11 @@ export const router = new Router({
       path: '*',
       name: '404',
       component: NotFound
+    },
+    {
+      path: '/users',
+      name: 'users',
+      component: Users
     }
   ]
 });
