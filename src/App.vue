@@ -12,7 +12,7 @@
           <router-link to="/commandes" >Commandes</router-link>
         </li>
         <li class="nav-item" v-if="isAdmin">
-          <a  href>Utilisateurs</a>
+          <router-link to="/users">Utilisateurs</router-link>
         </li>
         <li class="nav-item" v-if="isAdmin">
           <router-link to="/articles/importer" >Importer articles</router-link>
@@ -21,7 +21,7 @@
           <router-link to="/fournisseurs" >Fournisseurs</router-link>
         </li>
         <li class="nav-item">
-          <a  href @click="logout" >Déconnection</a>
+          <a  href @click="logout" >Déconnexion</a>
         </li>
         <li class="nav-item navbar-text">
           {{userActuel.username}}
