@@ -46,9 +46,5 @@ const locale = {
   attributes: {}
 };
 
-/*if (isDefinedGlobally()) {
-  // eslint-disable-next-line
-  VeeValidate.Validator.localize({ [locale.name]: locale });
-}*/
 
 export default locale;
