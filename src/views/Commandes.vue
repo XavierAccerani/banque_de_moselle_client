@@ -12,7 +12,7 @@
           <th>Montant TTC</th>
         </tr>
 
-        <tr @click.prevent="chargerUneCommande(commande.id)" v-for="commande in commandes" :key="commande.id">
+        <tr id="commande" @click.prevent="chargerUneCommande(commande.id)" v-for="commande in commandes" :key="commande.id">
           <td><a href>{{commande.numero}}</a></td>
           <td></td>
           <td>{{getEtatCommande(commande)}}</td>
@@ -22,7 +22,10 @@
       </table>
     </div>
 
-    <div class="col-12">
+    <div id="detailCommande" class="col-12">
+      <div>
+        <button type="button" class="btn btn-outline-success" @click="retourCommandes()">&larr; Retour</button>
+      </div>
       <DetailCommande :creer="creer" :commande="commandeForm" @rechargerCommandes="rechargerCommandes"/>
       <br>
     </div>
@@ -47,6 +50,7 @@
     },
     async mounted() {
       await this.getCommandes();
+      // document.getElementById('detailCommande').className='none';
     },
     methods: {
       async getCommandes() {
@@ -62,7 +66,7 @@
         commande.lignesCommandes.forEach(ligne => {
           montant += ligne.prix * ligne.quantite * ligne.tva;
         });
-        return montant;
+        return montant.toFixed(2);
       },
       async chargerUneCommande(id) {
         try {
@@ -94,4 +98,13 @@
 </script>
 
 <style scoped>
+  .none{display: none}
+
+  #commande:hover{
+    background: rgba(31, 254, 16, 0.2);
+  }
+  #commande:active {
+    background: linear-gradient(rgba(31, 254, 16, 0.2), rgba(31, 254, 16, 0.1));
+  }
+
 </style>
