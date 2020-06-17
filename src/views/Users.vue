@@ -20,7 +20,7 @@
       <Pagination :elements="users" :nbPages="nbPages" :changerTableau="setUsersPagination"/>
     </div>
     <div class="col-6">
-      <DetailUser :user="userForm" @rechargerUsers="rechargerUsers"/>
+      <DetailUser :user="userForm" :access-check="accessCheck" @rechargerUsers="rechargerUsers"/>
     </div>
   </div>
 </template>
@@ -28,6 +28,7 @@
 <script>
   import DetailUser from "../components/DetailUser";
   import Pagination from "../components/Pagination";
+
 
   export default {
     name: "Users",
@@ -40,7 +41,8 @@
         users: [],
         userForm: {},
         usersPagination: [],
-        nbPages: 0
+        nbPages: 0,
+        accessCheck: true,
       }
     },
     async mounted() {
@@ -65,6 +67,7 @@
         try {
           const reponse = await this.$http.get('users/' + id);
           this.userForm = reponse.data;
+          this.accessCheck = false;
         } catch (e) {
           console.error(e);
         }
