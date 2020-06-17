@@ -1,7 +1,11 @@
 <template>
   <div>
-    <h2>Détail Commande</h2>
+    <h2 id="nouvelle-commande">Nouvelle Commande / Détail Commande</h2>
+    <div>
+      <button class="btn btn-link" @click="effacerForm">Nouvelle commande</button>
+    </div>
     <div class="container col-12">
+      <br>
       <ul class="progressbar">
         <li class="active">Créée</li>
         <li>Rédigée</li>
@@ -11,9 +15,11 @@
         <li>Réceptionnée</li>
         <li>Archivée</li>
       </ul>
+      <br>
     </div>
 
     <form @submit.prevent="validerForm">
+      <!-- On a un @NotEmpty sur "numero" dans le serveur : on aurait pu mettre "v-if="!creer" sinon -->
       <div class="form-group row">
         <label for="numero" class="col-2">Numéro</label>
         <div class="col-10">
@@ -159,6 +165,9 @@
       },
       ajouterUneLigne() {
         this.commande.lignesCommandes.push(new LigneCommande());
+      },
+      effacerForm() {
+        this.$emit('effacerFormulaire');
       }
     }
   }

@@ -14,7 +14,7 @@
 
         <tr id="commande" @click.prevent="chargerUneCommande(commande.id)" v-for="commande in commandes" :key="commande.id">
           <td><a href>{{commande.numero}}</a></td>
-          <td></td>
+          <td>{{commande.dateCreation}}</td>
           <td>{{getEtatCommande(commande)}}</td>
           <td>{{commande.fournisseur.nom}}</td>
           <td>{{getMontantTTC(commande)}}</td>
@@ -26,8 +26,11 @@
       <div>
         <button type="button" class="btn btn-outline-success" @click="retourCommandes()">&larr; Retour</button>
       </div>
-      <DetailCommande :creer="creer" :commande="commandeForm" @rechargerCommandes="rechargerCommandes"/>
-      <br>
+      <br><br>
+      <DetailCommande :creer="creer" :commande="commandeForm"
+                      @rechargerCommandes="rechargerCommandes"
+                      @effacerFormulaire="effacerFormulaire"/>
+      <br><br>
     </div>
   </div>
 </template>
