@@ -7,13 +7,13 @@
     <div class="container col-12">
       <br>
       <ul class="progressbar">
-        <li class="active">Créée</li>
-        <li>Rédigée</li>
-        <li>Visée</li>
-        <li>Signée</li>
-        <li>Envoyée</li>
-        <li>Réceptionnée</li>
-        <li>Archivée</li>
+        <li id="creee" v-bind:class="isCreee(commande)? 'active' : ''">Créée</li>
+        <li id="redigee" v-bind:class="isRedigee(commande)? 'active' : ''">Rédigée</li>
+        <li id="visee" v-bind:class="isVisee(commande)? 'active' : ''">Visée</li>
+        <li id="signee" v-bind:class="isSignee(commande)? 'active' : ''">Signée</li>
+        <li id="envoyee" v-bind:class="isEnvoyee(commande)? 'active' : ''">Envoyée</li>
+        <li id="receptionnee" v-bind:class="isReceptionnee(commande)? 'active' : ''">Réceptionnée</li>
+        <li id="archivee" v-bind:class="isArchivee(commande)? 'active' : ''">Archivée</li>
       </ul>
       <br>
     </div>
@@ -91,13 +91,35 @@
       </div>
 
       <br>
-      <button type="submit" class="btn btn-success">Enregistrer</button>
+      <div class="d-flex justify-content-between">
+        <button id="btn-saved" type="submit" class="btn btn-success">Enregistrer</button>
+        <button id="btn-etat" type="submit" class="btn btn-outline-success" @click="changementEtat(commande)">Rédigée</button>
+      </div>
     </form>
   </div>
 </template>
 
 <script>
   import {LigneCommande} from "../modeles/LigneCommande";
+
+  function getEtatCommande(commande) {
+    document.getElementById('btn-saved').disabled = false;
+    if (commande.etat === 10) {
+      return "Créée";
+    } else if (commande.etat === 20) {
+      return "Rédigée"
+    } else if (commande.etat === 30) {
+      return "Visée"
+    } else if (commande.etat === 40) {
+      return "Signée"
+    } else if (commande.etat === 50) {
+      return "Envoyée"
+    } else if (commande.etat === 60) {
+      return "Réceptionnée"
+    } else if (commande.etat === 70) {
+      return "Archivée"
+    }
+  }
 
   export default {
     name: "DetailCommande",
@@ -109,14 +131,18 @@
       }
     },
     async mounted() {
-      try {
-        const reponse = await this.$http.get('fournisseurs');
-        this.fournisseurs = reponse.data;
-      } catch (e) {
-        console.error(e);
-      }
+      await this.getFournisseurs();
+      document.getElementById('btn-etat').innerHTML = getEtatCommande(this.commande);
     },
     methods: {
+      async getFournisseurs() {
+        try {
+          const reponse = await this.$http.get('fournisseurs');
+          this.fournisseurs = reponse.data;
+        } catch (e) {
+          console.error(e);
+        }
+      },
       validerForm() {
         this.enregistrer();
       },
@@ -135,11 +161,6 @@
           console.error(e);
         }
       },
-      getTVA(ligne) {
-        let tva = 0;
-        tva = Math.round((ligne.tva - 1) * 100);
-        return tva;
-      },
       getMontantHT(ligne) {
         let montant = 0;
         montant = ligne.prix * ligne.quantite;
@@ -155,6 +176,7 @@
         this.commande.lignesCommandes.forEach(ligne => {
           total += this.calculerMontantLigneTTC(ligne);
         });
+        console.log(this.commande.etat);
         return total.toFixed(2);
       },
       calculerMontantLigneTTC(ligne) {
@@ -166,8 +188,73 @@
       ajouterUneLigne() {
         this.commande.lignesCommandes.push(new LigneCommande());
       },
+
       effacerForm() {
         this.$emit('effacerFormulaire');
+      },
+
+      isCreee(commande) {
+        if (commande.etat === 10) {
+          return true;
+        }
+      },
+      isRedigee(commande) {
+        if (commande.etat === 20) {
+          return true;
+        }
+      },
+      isVisee(commande) {
+        if (commande.etat === 30) {
+          return true;
+        }
+      },
+      isSignee(commande) {
+        if (commande.etat === 40) {
+          return true;
+        }
+      },
+      isEnvoyee(commande) {
+        if (commande.etat === 50) {
+          return true;
+        }
+      },
+      isReceptionnee(commande) {
+        if (commande.etat === 60) {
+          return true;
+        }
+      },
+      isArchivee(commande) {
+        if (commande.etat === 70) {
+          return true;
+        }
+      },
+      changementEtat(commande) {
+        if (commande.etat === 10) {
+          commande.etat = 20;
+          document.getElementById('btn-etat').innerHTML = 'Rédigée';
+          document.getElementById('btn-saved').disabled = false;
+        }
+        else if (commande.etat === 20) {
+          commande.etat = 30;
+          document.getElementById('btn-etat').innerHTML = 'Visée';
+          document.getElementById('btn-saved').disabled = false;
+        } else if (commande.etat === 30) {
+          commande.etat = 40;
+          document.getElementById('btn-etat').innerHTML = 'Signée';
+          document.getElementById('btn-saved').disabled = false;
+        } else if (commande.etat === 40) {
+          commande.etat = 50;
+          document.getElementById('btn-etat').innerHTML = 'Envoyée';
+          document.getElementById('btn-saved').disabled = false;
+        } else if (commande.etat === 50) {
+          commande.etat = 60;
+          document.getElementById('btn-etat').innerHTML = 'Réceptionnée';
+          document.getElementById('btn-saved').disabled = true;
+        }else if (commande.etat === 60) {
+          commande.etat = 70;
+          document.getElementById('btn-etat').innerHTML = 'Archivée';
+          document.getElementById('btn-saved').disabled = true;
+        }
       }
     }
   }
@@ -178,7 +265,7 @@
     border-radius: 5px;
   }
 
-  h2{
+  h2 {
     margin: 5px;
   }
 
@@ -187,9 +274,11 @@
     margin-bottom: 100px;
     margin-top: 10px;
   }
+
   .progressbar {
     counter-reset: step;
   }
+
   .progressbar li {
     list-style-type: none;
     width: 14%;
@@ -198,41 +287,37 @@
     position: relative;
     text-align: center;
     text-transform: uppercase;
-    color: #7d7d7d;
+    color: #ffffff;
+    z-index: -1;
+    background-color: #47641f;
+    clip-path: polygon(75% 0%, 100% 50%, 75% 100%, 0% 100%, 25% 50%, 0% 0%);
   }
+
   .progressbar li:before {
     width: 30px;
     height: 30px;
     content: counter(step);
     counter-increment: step;
     line-height: 30px;
-    border: 2px solid #7d7d7d;
     display: block;
     text-align: center;
-    margin: 0 auto 10px auto;
-    border-radius: 50%;
-    background-color: white;
+    margin: 0 auto 5px auto;
+    background-color: transparent;
   }
-  .progressbar li:after {
-    width: 100%;
-    height: 2px;
-    content: '';
-    position: absolute;
-    background-color: #7d7d7d;
-    top: 15px;
-    left: -50%;
-    z-index: -1;
-  }
-  .progressbar li:first-child:after {
-    content: none;
-  }
-  .progressbar li.active {
-    color: #1eff05;
-  }
+
   .progressbar li.active:before {
-    border-color: #23ff18;
+    color: #ffffff;
+    font-weight: bold;
   }
-  .progressbar li.active + li:after {
-    background-color: #16910a;
+
+  .progressbar .active {
+    background-color: #8EC63F;
+    color: #ffffff;
+    font-weight: bold;
+  }
+
+
+  .progressbar .active ~ li {
+    background-color: #b0b0b0;
   }
 </style>
