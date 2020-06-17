@@ -1,6 +1,17 @@
 <template>
   <div>
     <h2>Détail Commande</h2>
+    <div class="container col-12">
+      <ul class="progressbar">
+        <li class="active">Créée</li>
+        <li>Rédigée</li>
+        <li>Visée</li>
+        <li>Signée</li>
+        <li>Envoyée</li>
+        <li>Réceptionnée</li>
+        <li>Archivée</li>
+      </ul>
+    </div>
 
     <form @submit.prevent="validerForm">
       <div class="form-group row">
@@ -29,7 +40,7 @@
             <th class="col-1">Référence</th>
             <th class="col-1">Prix</th>
             <th class="col-1">Quantité</th>
-            <th class="col-1">TVA</th>
+            <th class="col-xs-1">TVA</th>
             <th class="col-1">Total HT</th>
             <th class="col-1">Total TTC</th>
             <th class="col-1"></th>
@@ -40,13 +51,13 @@
               <input type="text" :id="'reference'+i" :name="'reference'+i" v-model="ligne.reference">
             </td>
             <td>
-              <input type="number" :id="'prix'+i" :name="'prix'+i" v-model="ligne.prix" min="0">
+              <input type="number" step="0.01" :id="'prix'+i" :name="'prix'+i" v-model="ligne.prix" min="0">
             </td>
             <td>
-              <input type="number" :id="'quantite'+i" :name="'quantite'+i" v-model="ligne.quantite" min="0">
+              <input type="number" step="0.01" :id="'quantite'+i" :name="'quantite'+i" v-model="ligne.quantite" min="0">
             </td>
-            <td>
-              {{getTVA(ligne)}}%
+            <td class="col-xs-1">
+              <input type="number" step="0.01" :id="'tva'+i" :name="'tva'+i" v-model="ligne.tva" min="1">
             </td>
             <td>
               {{getMontantHT(ligne)}}€
@@ -60,13 +71,17 @@
           </tr>
 
           <tr>
+            <td colspan="7">
+              <button type="button" class="btn btn-light col-12" @click="ajouterUneLigne"><b>+</b></button>
+            </td>
+          </tr>
+          <tr>
             <td colspan="5"></td>
             <th>Total TTC</th>
             <th>{{getTotalTTC()}} €</th>
           </tr>
         </table>
 
-        <button type="button" class="btn btn-sm btn-light" @click="ajouterUneLigne">+ Ajouter un article</button>
       </div>
 
       <br>
@@ -116,7 +131,7 @@
       },
       getTVA(ligne) {
         let tva = 0;
-        tva = Math.round(( ligne.tva -1 )* 100);
+        tva = Math.round((ligne.tva - 1) * 100);
         return tva;
       },
       getMontantHT(ligne) {
@@ -133,7 +148,7 @@
         let total = 0;
         this.commande.lignesCommandes.forEach(ligne => {
           total += this.calculerMontantLigneTTC(ligne);
-        })
+        });
         return total.toFixed(2);
       },
       calculerMontantLigneTTC(ligne) {
@@ -152,5 +167,63 @@
 <style scoped>
   .btn-danger {
     border-radius: 5px;
+  }
+
+  h2{
+    margin: 5px;
+  }
+
+  .container {
+    width: 100%;
+    margin-bottom: 100px;
+    margin-top: 10px;
+  }
+  .progressbar {
+    counter-reset: step;
+  }
+  .progressbar li {
+    list-style-type: none;
+    width: 14%;
+    float: left;
+    font-size: 12px;
+    position: relative;
+    text-align: center;
+    text-transform: uppercase;
+    color: #7d7d7d;
+  }
+  .progressbar li:before {
+    width: 30px;
+    height: 30px;
+    content: counter(step);
+    counter-increment: step;
+    line-height: 30px;
+    border: 2px solid #7d7d7d;
+    display: block;
+    text-align: center;
+    margin: 0 auto 10px auto;
+    border-radius: 50%;
+    background-color: white;
+  }
+  .progressbar li:after {
+    width: 100%;
+    height: 2px;
+    content: '';
+    position: absolute;
+    background-color: #7d7d7d;
+    top: 15px;
+    left: -50%;
+    z-index: -1;
+  }
+  .progressbar li:first-child:after {
+    content: none;
+  }
+  .progressbar li.active {
+    color: #1eff05;
+  }
+  .progressbar li.active:before {
+    border-color: #23ff18;
+  }
+  .progressbar li.active + li:after {
+    background-color: #16910a;
   }
 </style>
