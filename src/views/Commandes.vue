@@ -1,8 +1,12 @@
 <template>
   <div class="row">
-
     <div id="listeCommandes" class="col-12">
       <h1 class="col-12">Liste des commandes</h1>
+
+      <div class="col-12">
+        <button class="btn btn-link" @click="nouvelleCommande">Nouvelle commande</button>
+      </div>
+      <br>
       <div>
         <table class="table" v-if="commandes.length">
           <tr>
@@ -31,9 +35,12 @@
         <button type="button" class="btn btn-outline-success" @click="retourCommandes()">&larr; Retour</button>
       </div>
       <br><br>
-      <DetailCommande :creer="creer" :commande="commandeForm"
+      <DetailCommande :creer="creer" :commande="commandeForm" :titrePage="titrePageDetail"
                       @rechargerCommandes="rechargerCommandes"
-                      @effacerFormulaire="effacerFormulaire"/>
+                      @effacerFormulaire="effacerFormulaire"
+                      @getEtatCommande="getEtatCommande"
+                      @getURLEtatCommande="getURLEtatCommande"
+                      @chargerUneCommande="chargerUneCommande"/>
       <br><br>
     </div>
   </div>
@@ -53,6 +60,7 @@
         creer: true,
         commandes: [],
         commandeForm: new Commande(),
+        titrePageDetail: null,
       }
     },
     async mounted() {
@@ -80,6 +88,7 @@
           const reponse = await this.$http.get('commandes/' + id);
           this.commandeForm = reponse.data;
           this.creer = false;
+          this.titrePageDetail = "Détail commande";
         } catch (e) {
           console.error(e);
         }
@@ -95,28 +104,48 @@
         if (commande.etat === 10) {
           return "Créée";
         } else if (commande.etat === 20) {
-          return "Rédigée"
+          return "Rédigée";
         } else if (commande.etat === 30) {
-          return "Visée"
+          return "Visée";
         } else if (commande.etat === 40) {
-          return "Signée"
+          return "Signée";
         } else if (commande.etat === 50) {
-          return "Envoyée"
+          return "Envoyée";
         } else if (commande.etat === 60) {
-          return "Réceptionnée"
+          return "Réceptionnée";
         } else if (commande.etat === 70) {
-          return "Archivée"
+          return "Archivée";
+        }
+      },
+      getURLEtatCommande(commande) {
+        if (commande.etat === 10) {
+          return "rediger";
+        } else if (commande.etat === 20) {
+          return "viser";
+        } else if (commande.etat === 30) {
+          return "signer";
+        } else if (commande.etat === 40) {
+          return "envoyer";
+        } else if (commande.etat === 50) {
+          return "receptionner";
+        } else if (commande.etat === 60) {
+          return "archiver";
         }
       },
       afficheDetail() {
         document.getElementById('detailCommande').hidden = false;
         document.getElementById('listeCommandes').hidden = true;
       },
+      nouvelleCommande() {
+        this.effacerFormulaire();
+        this.afficheDetail();
+        this.titrePageDetail = "Nouvelle commande";
+      },
       retourCommandes() {
+        this.getCommandes();
         document.getElementById('detailCommande').hidden = true;
         document.getElementById('listeCommandes').hidden = false;
-
-      }
+      },
     }
   }
 </script>
@@ -133,5 +162,4 @@
   #commande:active {
     background: linear-gradient(rgba(31, 254, 16, 0.2), rgba(31, 254, 16, 0.1));
   }
-
 </style>

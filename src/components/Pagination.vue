@@ -16,7 +16,7 @@
 </template>
 
 <script>
-  const PAR_PAGE = 2;
+  const PAR_PAGE = 5;
 
   export default {
     name: 'Pagination',

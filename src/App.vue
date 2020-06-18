@@ -6,9 +6,6 @@
           <router-link to="/">Accueil</router-link>
         </li>
         <li class="nav-item">
-          <a :href="'/commandes#nouvelle-commande'" class="nav-fill">Faire une commande</a>
-        </li>
-        <li class="nav-item">
           <router-link to="/commandes">Commandes</router-link>
         </li>
         <li class="nav-item" v-if="isAdmin">
@@ -69,6 +66,10 @@
           }
         }
         return false;
+      },
+      commandesAfficherDetail() {
+        console.log('fuck');
+
       }
     }
   }
