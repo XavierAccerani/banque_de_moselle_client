@@ -150,6 +150,7 @@
           const url = this.creer ? 'commandes' : `commandes/${this.commande.id}`;
           const reponse = await this.$http[httpMethod](url, this.commande);
           if (reponse.status === 200) {
+            this.changementEtatBouton();
             this.$emit('rechargerCommandes');
           }
         } catch (e) {
@@ -217,48 +218,69 @@
           return true;
         }
       },
+      incrementerEtatCommande() {
+        if (this.isCreee()) {
+          this.commande.etat = 20;
+        } else if (this.isRedigee()) {
+          this.commande.etat = 30;
+        } else if (this.isVisee()) {
+          this.commande.etat = 40;
+        } else if (this.isSignee()) {
+          this.commande.etat = 50;
+        } else if (this.isEnvoyee()) {
+          this.commande.etat = 60;
+        } else if (this.isReceptionnee()) {
+          this.commande.etat = 70;
+        }
+      },
+      changementEtatBouton() {
+        if (this.commande.etat === 10) {
+          document.getElementById('btn-etat').innerHTML = 'Rédiger';
+          document.getElementById('btn-saved').disabled = false;
+        } else if (this.commande.etat === 20) {
+          document.getElementById('btn-etat').innerHTML = 'Viser';
+          document.getElementById('btn-saved').disabled = false;
+        } else if (this.commande.etat === 30) {
+          document.getElementById('btn-etat').innerHTML = 'Signer';
+          document.getElementById('btn-saved').disabled = false;
+        } else if (this.commande.etat === 40) {
+          document.getElementById('btn-etat').innerHTML = 'Envoyer';
+          document.getElementById('btn-saved').disabled = false;
+        } else if (this.commande.etat === 50) {
+          document.getElementById('btn-etat').innerHTML = 'Réceptionner';
+          document.getElementById('btn-saved').disabled = true;
+        } else if (this.commande.etat === 60) {
+          document.getElementById('btn-etat').innerHTML = 'Archiver';
+          document.getElementById('btn-saved').disabled = true;
+        }
+      },
+      etatSuivant() {
+        if (this.isCreee()) {
+          return 'rediger';
+        } else if (this.isRedigee()) {
+          return 'viser'
+        } else if (this.isVisee()) {
+          return 'signer'
+        } else if (this.isSignee()) {
+          return 'envoyer'
+        } else if (this.isEnvoyee()) {
+          return 'receptionner'
+        } else if (this.isReceptionnee()) {
+          return 'archiver'
+        }
+      },
       async changementEtat() {
         try {
           const url = `commandes/${this.commande.id}/${this.etatSuivant()}`;
           const reponse = await this.$http['put'](url);
+          console.log('URL état : ' + url);
           if (reponse.status === 200) {
+            this.incrementerEtatCommande();
             this.changementEtatBouton();
             this.$emit('chargerUneCommande', this.commande.id);
           }
         } catch (e) {
           console.error(e);
-        }
-      },
-      etatSuivant() {
-        // Ici, on sait qu'on incrémente de 10 pour chaque état
-        // Mais on pourrait avoir des étapes intermédiaires
-        return (this.commande.etat) + 10;
-      },
-      changementEtatBouton() {
-        if (this.commande.etat === 10) {
-          this.commande.etat = 20;
-          document.getElementById('btn-etat').innerHTML = 'Rédiger';
-          document.getElementById('btn-saved').disabled = false;
-        } else if (this.commande.etat === 20) {
-          this.commande.etat = 30;
-          document.getElementById('btn-etat').innerHTML = 'Viser';
-          document.getElementById('btn-saved').disabled = false;
-        } else if (this.commande.etat === 30) {
-          this.commande.etat = 40;
-          document.getElementById('btn-etat').innerHTML = 'Signer';
-          document.getElementById('btn-saved').disabled = false;
-        } else if (this.commande.etat === 40) {
-          this.commande.etat = 50;
-          document.getElementById('btn-etat').innerHTML = 'Envoyer';
-          document.getElementById('btn-saved').disabled = false;
-        } else if (this.commande.etat === 50) {
-          this.commande.etat = 60;
-          document.getElementById('btn-etat').innerHTML = 'Réceptionner';
-          document.getElementById('btn-saved').disabled = true;
-        } else if (this.commande.etat === 60) {
-          this.commande.etat = 70;
-          document.getElementById('btn-etat').innerHTML = 'Archiver';
-          document.getElementById('btn-saved').disabled = true;
         }
       }
     }
