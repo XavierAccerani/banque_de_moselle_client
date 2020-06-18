@@ -67,10 +67,6 @@
         }
         return false;
       },
-      commandesAfficherDetail() {
-        console.log('fuck');
-
-      }
     }
   }
 </script>
